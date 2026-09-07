@@ -1,0 +1,34 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<Nullable>enable</Nullable>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<!-- halcondotnet.dll 依赖 WinForms / System.Drawing，需启用桌面框架 -->
+		<UseWindowsForms>true</UseWindowsForms>
+		<!-- Halcon 原生库仅提供 x64，强制 x64 -->
+		<Platforms>AnyCPU;x64</Platforms>
+		<PlatformTarget>x64</PlatformTarget>
+	</PropertyGroup>
+
+	<!-- 本工程代码不需要 WinForms/System.Drawing 的隐式命名空间，移除以免与 WPF 类型冲突 -->
+	<ItemGroup>
+		<Using Remove="System.Windows.Forms" />
+		<Using Remove="System.Drawing" />
+	</ItemGroup>
+
+	<!-- Halcon .NET 程序集（含 HWindowControlWPF / HOperatorSet），本地运行时随仓库根提供 -->
+	<ItemGroup>
+		<Reference Include="halcondotnet">
+			<HintPath>..\HalconRuntime\bin\dotnet35\halcondotnet.dll</HintPath>
+		</Reference>
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.0" />
+		<PackageReference Include="CommunityToolkit.Mvvm" Version="8.4.0" />
+	</ItemGroup>
+
+</Project>
